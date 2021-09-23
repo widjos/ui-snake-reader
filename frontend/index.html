@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Java Transpirator </title>
+    <link rel = "stylesheet" type = "text/css" href = "./style/nav.css" />
+    <link rel = "stylesheet" type = "text/css" href = "./style/main.css" />
+    <link rel = "stylesheet" type = "text/css" href = "./style/pestana.css" />
+    <script type="text/javascript" src="./jquery-1.7.2.min.js"></script>
+
+    <!-- Estilo que utiliza el text area -->
+     <link rel="stylesheet" href="lib/theme/eclipse.css">
+     <link rel="stylesheet" href="lib/theme/monokai.css">
+     <!-- Libreria de codemirror y css -->
+     <script src="lib/codemirror.js"></script>
+     <link rel="stylesheet" href="./lib/codemirror.css">
+     <!-- Tipo de lenguaje que reconoce -->    
+     <script src="lib/mode/julia/julia.js"></script>
+     <script type="text/javascript" src="./js/vis.js"></script>
+
+</head>
+
+<body>
+    
+    <header>
+        <nav>  
+
+            <div id="nav-item">
+                
+                <label class="title-menu"> JOLC:  </label>
+                <input id="fileInput" title="Abrir" type="file" size="50" onchange="AbrirArchivo(this.files)" class="btnp">
+                <button onclick="agregar();" class="menu-item-btn">Nuevo </button>
+                <button onclick="quitar();" class="menu-item-btn">Eliminar </button>
+                <button onclick="DescargarArchivo();" class="menu-item-btn">Guardar</button>
+                <button onclick="DescargarArchivo();" class="menu-item-btn">Guardar Como</button>
+                <button onclick="ReportXml(0);" class="menu-item-btn">Errores</button>
+                <button onclick="getArbolXML(true);" class="menu-item-btn">AST</button>
+                <button onclick="reporteTabla();" class="menu-item-btn">Tabla Simbolos</button>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="menu-item">
+        <button onclick="compile();" id="transpilar"> Analizar </button>
+    </div>
+    
+    <br>
+   
+    <div class="inputsArea">
+        <div class="input-text">
+            <label class="tag-section"> JOLC </label>    
+            <div id="editor">
+               <div class="contenedor">
+             <div id="pestanas">
+                <ul id=lista>
+            </ul>
+        </div>
+
+                <div id="contenidopestanas"></div>
+            </div>  
+            </div>   
+        </div>
+
+    </div>
+
+    <div class="console">
+        <section>
+            <div class="block-console">
+                <label class="tag-section"> Console</label>
+                <textarea disabled id="xml-output" placeholder="Your  output will be here, Happy Coding! :D "></textarea>
+            
+            </di>
+        </section>    
+    </div>
+    <div id="grafo">
+
+    </div>
+
+
+    <footer> Coded by: widjos </footer>
+    <script>var exports = {"__esModule": true};</script>
+     <script type="text/javascript" src="./js/index.js"></script>
+     <script src="../Analisis/build/XML/Gramatica/xmlA.js"></script>
+     <script src="../Analisis/build/XML/Abstractas/Entorno.js"></script>
+     <script src="../Analisis/build/XML/Abstractas/Nodo.js"></script>
+     <script src="../Analisis/build/XML/Abstractas/Simbolo.js"></script>
+     <script src="../Analisis/build/XML/Abstractas/Tabla.js"></script>
+     <script src="../Analisis/build/XML/Abstractas/Tipo.js"></script>
+     <script src="../Analisis/build/XML/Objetos/Objeto.js"></script>
+     <script src="../Analisis/build/XML/AST/NodoAST.js"></script>
+
+     
+</body>
+
+
+</html>
