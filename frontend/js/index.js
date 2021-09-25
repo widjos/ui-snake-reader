@@ -270,6 +270,7 @@ function openXpath(files){
 
 var resultJs = {};
 
+/*
 function compile(){
     var ta=document.getElementById(get_vent());
     var contenido=ta.value;//texto de vent actual
@@ -277,7 +278,7 @@ function compile(){
     alert("Ejecucion realizada");
     document.getElementById("xml-output").innerHTML  = `=> Su compilacion ha sido exitosa ,
 => Puede descargar sus archivos`;
-}   
+} */  
 
 function reporteTabla(){
     if(resultXML.Lobjetos!=undefined || resultXML.Lobjetos!=null ){
@@ -362,6 +363,46 @@ function saveReport(name,contenido,extension,typein){
 
 }
 
+
+var resultJs = {};
+function compile(){
+    var hoy=new Date();
+    var HH=hoy.getHours();
+    var MM=hoy.getMinutes();
+    var formato=" Time = "+HH+":"+MM;
+    var ta=document.getElementById(get_vent());
+    var contenido=ta.value;//texto de vent actual
+    console.log(contenido);
+    var data = { jolc : contenido};
+
+    //Aqui se debe validar que el contenido del codigo no sea vacio 
+    console.log(JSON.stringify(data));
+    //if (contenido != '' ? (data.append('JavaCode:', contenido)) : console.log("%cError : %cEl contenido cuerpo esta vacio", "color: red", "color: green") );
+    
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+    // do something to response
+    if (xhr.readyState === xhr.DONE) {
+        if (xhr.status === 200) {
+             resultJs = JSON.parse(this.responseText);
+             console.log("%c Result de su post esta listo: ",'color: orange;');
+             console.log(resultJs)
+             alert("Su Interpretacion  esta lista");
+             document.getElementById("jolc-output").innerHTML  =  " ";
+             document.getElementById("jolc-output").innerHTML  = `=> Su interpretacion de JOLC ha sido exitosa ${formato}
+=> Puede descargar sus archivos \n ${resultJs['resultado']}`;
+            }
+        }
+    };
+    
+    
+    xhr.open('POST', 'http://localhost:8000/compile', true);
+    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhr.send(JSON.stringify(data));
+
+}
+
 //Esto genera el reporte que se necesita 0 para los errores y  1 para gramatica
 function getReportHtml(result, type, lenguaje){
         //Error
@@ -416,9 +457,10 @@ function gettHtml(list,type,col,tit){
         htmlBody += "</tr></thead>\n<tbody>";
 
         if(tipo == 0){
+            console.log("Errores generando");
             for (var i = 0; i < list.length; i++){
                 htmlBody +=  `
-                <tr> <td> ${i} </td> <td>  ${list[i].tipo} </td> <td>  ${list[i].fila} </td> <td>  ${list[i].columna}  </td> <td>   ${list[i].desc} </td> <th> ${list[i].lexema}</th></tr>`;
+                <tr> <td> ${i} </td> <td>  ${list[i].tipo} </td> <td>  ${list[i].fila} </td> <td>  ${list[i].columna}  </td> <td>   ${list[i].descripcion} </td> <th> ${list[i].lexema}</th></tr>`;
             } 
         }else{
             for (var i = 0; i < list.length; i++){
@@ -432,11 +474,11 @@ function gettHtml(list,type,col,tit){
 }
 
 function ReportXml(opcion){
-
-    if(resultXML.errores!=undefined || resultXML.errores!=null){
+    console.log(resultJs.errores)
+    if(resultJs.errores !=undefined || resultJs.errores!=null){
         //Reporte de errores 
         if(opcion == 0){
-            getReportHtml(resultXML.errores,0,"xml");
+            getReportHtml(resultJs.errores,0,"xml");
         }
         //Reporte de gramatica 
         else if(opcion == 1) 

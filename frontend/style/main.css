@@ -97,7 +97,7 @@ label {
    display: inline-block;
 }
 
-#xml-output {
+#jolc-output {
     flex-wrap: nowrap;
     width: 100%;
     height: 250px;
